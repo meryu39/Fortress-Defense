@@ -6,10 +6,12 @@
 #include<Windows.h>
 #include<conio.h>
 #include<iostream>
+#include<stdbool.h>
 #pragma warning(disable:4996)
 
-#define WIDTHSIZE 50
-#define HEIGHTSIZE 10
+#define FIELD_WIDTH 32//가로크기
+#define FIELD_HEIGHT 20//세로크기
+
 //유닛의 그래픽 정보를 담고 있는 구조체
 typedef struct
 {
