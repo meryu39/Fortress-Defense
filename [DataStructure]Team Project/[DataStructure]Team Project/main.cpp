@@ -7,56 +7,67 @@
 int main(void)
 {
 	FieldData testData[FIELD_HEIGHT][FIELD_WIDTH];
+    char test[FIELD_WIDTH + 2];
 	int temp = 0;
-	for (int y = 0; y < FIELD_HEIGHT; y++)
-	{
-		for (int x = 0; x < FIELD_WIDTH; x++)
-		{
-			testData[y][x].code = 0;
-			testData[y][x].shape.look = 'E';
-			testData[y][x].shape.color = 1;
-		}
-	}
-	printScreen(testData);
-	scanf("%d", &temp);
-	for (int y = 0; y < FIELD_HEIGHT; y+=2)
-	{
-		for (int x = 0; x < FIELD_WIDTH; x++)
-		{
-			testData[y][x].code = 1;
-			testData[y][x].shape.look = 'N';
-			testData[y][x].shape.color = 6;
-		}
-	}
-	printScreen(testData);
-	scanf("%d", &temp);
-	for (int y = 0; y < FIELD_HEIGHT; y += 1)
-	{
-		for (int x = 0; x < FIELD_WIDTH; x+=3)
-		{
-			testData[y][x].code = 2;
-			testData[y][x].shape.look = 'A';
-			testData[y][x].shape.color = 4;
-		}
-	}
-	printScreen(testData);
-	scanf("%d", &temp);
-	for (int y = 0; y < FIELD_HEIGHT; y += 2)
-	{
-		for (int x = 0; x < FIELD_WIDTH; x += 2)
-		{
-			testData[y][x].code = 3;
-			testData[y][x].shape.look = 'O';
-			testData[y][x].shape.color = 2;
-		}
-	}
-	printScreen(testData);
-	scanf("%d", &temp);
+    bool sign = FALSE;
+    int testX = 5;
+
+    printScreen(NULL);
+    for (int y = 0; y < FIELD_HEIGHT; y++)
+    {
+        for (int x = 0; x < FIELD_WIDTH; x++)
+        {
+            testData[y][x].code = 0;
+            testData[y][x].shape.look = 'A';
+            testData[y][x].shape.color = 7;
+        }
+    }
+    while (temp != -1)
+    {
+        for (int y = 0; y < FIELD_HEIGHT; y++)
+        {
+            for (int x = 0; x < FIELD_WIDTH; x++)
+            {
+                testData[y][x].code = 0;
+                if (x == testX && y == FIELD_HEIGHT - 1)
+                {
+                    testData[y][x].code = 1;
+                }
+                testData[y][x].shape.look = 'A';
+                testData[y][x].shape.color = 7;
+            }
+            
+        }
+        testX += 1;
+        goto_xy(FIELD_WIDTH, FIELD_HEIGHT);
+        _sleep(100);
+        printScreen(testData);
+        if (testX > FIELD_WIDTH)  break;
+        
+    }
+    
+	
 
 	return 0;
 }
 
-
+/*
+for (int y = 0; y < FIELD_HEIGHT; y++)
+    {
+        fgets(test, FIELD_WIDTH + 2, testFile);
+        for (int x = 0; x < FIELD_WIDTH; x++)
+        {
+            testData[y][x].code = 1;
+            testData[y][x].shape.color = 15;
+            if (test[x] == '\0' || test[x] == '\n')
+            {
+                testData[y][x].shape.look = ' ';
+                continue;
+            }
+            testData[y][x].shape.look = test[x];
+        }
+    }
+*/
 
 //유닛 소환 및 이동 테스트 코드
 

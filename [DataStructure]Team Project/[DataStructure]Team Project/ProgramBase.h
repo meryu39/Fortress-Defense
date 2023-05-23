@@ -9,7 +9,7 @@
 #include<stdbool.h>
 #pragma warning(disable:4996)
 
-#define FIELD_WIDTH 32//가로크기
+#define FIELD_WIDTH 100//가로크기
 #define FIELD_HEIGHT 20//세로크기
 
 //유닛의 그래픽 정보를 담고 있는 구조체
