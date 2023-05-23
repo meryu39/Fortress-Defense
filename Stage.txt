@@ -1,0 +1,79 @@
+//******************************************************************************
+
+//Welcome to GDB Online.
+ // GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+ // C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  //Code, Compile, Run and Debug online from anywhere in world.
+
+//*************************************************************************
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Stage {
+    int step;
+    struct Stage* nextStage;
+} Stage;
+
+void printAndHandleStage(Stage* head) {//스테이지 출력및 완료시 결과 출력함수
+    while (head != NULL) {
+        printf("스테이지: %d\n", head->step);
+        
+        if (/*isStageCleared(head)/*) {
+            printf("스테이지 %d를 완료하였습니다. ", head->step);
+            if (head->nextStage != NULL) {
+                printf("다음 스테이지 %d가 시작됩니다.\n", head->nextStage->step);
+            } else {
+                printf("\n");
+            }
+        }
+        
+        head = head->nextStage;
+    }
+}
+
+void freeStages(Stage* head) {//완료된 스테이지 free함수
+    Stage* current = head;
+    while (current != NULL) {
+        Stage* temp = current;
+        current = current->nextStage;
+        free(temp);
+    }
+}
+
+Stage* createStage(int step) {//스테이지 생성 함수
+    Stage* stage = (Stage*)malloc(sizeof(Stage));
+    stage->step = step;
+    stage->nextStage = NULL;
+    return stage;
+}
+
+void linkStages(Stage* stage1, Stage* stage2) {//스테이지 연결 함수
+    stage1->nextStage = stage2;
+}
+
+/*int isStageCleared(Stage* stage) {//스테이지 클리어 조건 달성 여부 확인 함수
+    
+}/*
+
+int main(void) {
+    Stage* head = NULL;
+
+    // 스테이지 생성
+    Stage* stage1 = createStage(1);
+    Stage* stage2 = createStage(2);
+    Stage* stage3 = createStage(3);
+
+    // 스테이지 연결
+    linkStages(stage1, stage2);
+    linkStages(stage2, stage3);
+
+    head = stage1;
+
+    // 현재 스테이지 출력 및 클리어 확인
+    printAndHandleStage(head);
+
+    // 진행 마친 스테이지 free
+    freeStages(head);
+
+    return 0;
+}
