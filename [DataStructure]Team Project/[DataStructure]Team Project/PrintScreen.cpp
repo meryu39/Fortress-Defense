@@ -10,7 +10,7 @@ void setColor(unsigned short color)
 	return;
 }
 
-void goto_xy(short x, short y)
+void goto_xy(SHORT x, SHORT y)
 {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	Position pos = { x, y };

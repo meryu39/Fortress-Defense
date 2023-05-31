@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <conio.h> // getch() 함수 사용을 위한 헤더 파일
 #include <windows.h>
 
