@@ -3,6 +3,7 @@
 #include"Unit.h"
 #include"Resource.h"
 
+FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 
 void sleep_time(int milliseconds) {
     clock_t startTime = clock();
@@ -11,91 +12,42 @@ void sleep_time(int milliseconds) {
     }
 }
 
-void my_unit(FieldData testData[FIELD_HEIGHT][FIELD_WIDTH], int testX)
-{
-    for (int y = 0; y < FIELD_HEIGHT; y++)
-    {
-        for (int x = 0; x < FIELD_WIDTH; x++)
-        {
-            testData[y][x].code = 0;
-            if (x == testX && y == FIELD_HEIGHT - 1)
-            {
-                testData[y][x].code = 1;
-            }
-            testData[y][x].shape.look = 'M';
-            testData[y][x].shape.color = 7;
-        }
-    }
-}
-
-void enemy_unit(FieldData testData[FIELD_HEIGHT][FIELD_WIDTH], int testX)
-{
-    for (int y = 0; y < FIELD_HEIGHT; y++)
-    {
-        for (int x = 0; x < FIELD_WIDTH; x++)
-        {
-            testData[y][x].code = 0;
-            // 정반대편 x 좌표에서도 유닛 생성
-            if (x == FIELD_WIDTH - testX && y == FIELD_HEIGHT - 1)
-            {
-                testData[y][x].code = 1;
-
-            }
-            testData[y][x].shape.look = 'E';
-            testData[y][x].shape.color = 7;
-
-        }
-    }
-}
-
 int main(void)
 {
-	FieldData testData[FIELD_HEIGHT][FIELD_WIDTH];
-    char test[FIELD_WIDTH + 2];
-	int temp = 0;
-    bool sign = FALSE;
-    int testX1 = 5; // 아군 유닛의 testX 값
-    int testX2 = 5; // 적 유닛의 testX 값
-    int inputKey = 0;  // 입력된 키를 저장할 변수
-
-
-
+    int tick = 0;
+    time_t startTime = clock();
+    init_unit();
     printScreen(NULL);
     for (int y = 0; y < FIELD_HEIGHT; y++)
     {
         for (int x = 0; x < FIELD_WIDTH; x++)
         {
-            testData[y][x].code = 0;
-            testData[y][x].shape.look = 'A';
-            testData[y][x].shape.color = 7;
+            field[y][x].code = 0;
+            field[y][x].shape.look = ' ';
+            field[y][x].shape.color = 7;
+            field[y][x].unitData = NULL;
         }
     }
-
-
-    while (temp != -1)
+    spawnUnit(1, false);
+    spawnUnit(1, true);
+    while (tick <= 2000)
     {
-        if (kbhit()) {
-            inputKey = getch();
-        }
+        if (clock() - startTime >= TICK * 1000)
+        {
+            unitControl();
+            printScreen(field);
+            tick++;
+            startTime = clock();
+            if (tick % 200 == 0)
+            {
+                spawnUnit(1, false);
+                spawnUnit(1, true);
+            }
 
-        if (inputKey == 'q') {
-            my_unit(testData, testX1); // 아군 유닛 생성
-            testX1 += 1; // 아군 유닛 x좌표 증가
-        }
-        else if (inputKey == 'w') {
-            enemy_unit(testData, testX2); // 적 유닛 생성
-            testX2 += 1; // 적 유닛 x좌표 증가
-        }
+            goto_xy(0, 21);
 
-
-        goto_xy(FIELD_WIDTH, FIELD_HEIGHT);
-        sleep_time(50);
-        printScreen(testData);
-        if (testX1 > FIELD_WIDTH && testX2 > FIELD_WIDTH) break;
-        
+        }
     }
-    
-	
 
 	return 0;
 }
