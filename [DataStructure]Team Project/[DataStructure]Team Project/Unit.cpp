@@ -135,17 +135,53 @@ void attackUnit(Unit* attacker, Unit* attackedUnit)
 }
 //AI
 /*
-int Highmyunit();
+int HighUnit()
+{
+	int maxprice = 0;
+
+	for (LinkedList_currentUnit* nowNode = head->rlink; nowNode != head; nowNode = nowNode->rlink)
+	{
+		if (!nowNode->unit->enemy && nowNode->unit->price > maxprice)
+		{
+			maxprice = nowNode->unit->price;
+		}
+	}
+
+	return maxprice;
+}
+
+int my_unitX()
+{
+	int myunitX= -1;
+
+	for (int y = 0; y < FIELD_HEIGHT; y++)
+	{
+		for (int x = 0; x < FIELD_WIDTH; x++)
+		{
+			if (field[y][x].unitData != NULL && !field[y][x].unitData->enemy)
+			{
+				myunitX = x;
+				break;
+			}
+		}
+		if (myunitX != -1)
+		{
+			break;
+		}
+	}
+
+	return myunitX;
+}
 
 int get_random() {
 	return (rand() % 2) + 1;
 }
-int enemy_find(){
+int myunit_find(){
 	int count = 0;
 
 	for (LinkedList_currentUnit* nowNode = head->rlink; nowNode != head; nowNode = nowNode->rlink)
 	{
-		if (nowNode->unit->enemy)
+		if (!nowNode->unit->enemy)
 		{
 			count++;
 		}
@@ -157,8 +193,8 @@ int enemy_find(){
 int UnitAI()
 {
 	int Tag = 1; // 초기 Tick 값 설정
-	int count_enemy_unit = enemy_find(); // 필드에 존재하는 적 유닛 수
-	int level_my_unit = Highmyunit(); // 필드에 존재하는 아군 유닛 최고 티어 레벨
+	int count_my_unit = myunit_find(); // 필드에 존재하는 적 유닛 수
+	int level_my_unit = HighUnit(); // 필드에 존재하는 아군 유닛 최고 티어 레벨
 	int random_level; // 랜덤으로 선택된 레벨 변수
 
 	while (Tag != 0)
@@ -166,35 +202,39 @@ int UnitAI()
 		switch (Tag)
 		{
 		case 1: // 기본 생성
-			if (count_enemy_unit <= 3)
+			
+			if (count_my_unit <= 3)
 			{
 				random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
-				spawnEnemyUnit(random_level);
+				spawnUnit(1, true,random_level); //유닛 생성시 매개변수 추가해서 레벨을 받을 수 있도록 해야함 !!!레벨 또는 골드 
+				Tag = 0;
 			}
 			if (level_my_unit > 4)
 			{
-				random_level = level_my_unit - 2; // 아군 유닛 최고 티어 레벨에서 2 감소
-				spawnEnemyUnit(random_level);
+				int unitlevel = level_my_unit - 2; // 아군 유닛 최고 티어 레벨에서 2 감소
+				spawnUnit(1, true, unitlevel); //유닛 레벨로 설정 
 				Tag = 0;
 			}
 			break;
 
 		case 2: // 좌표 관련 생성
-			if (my_unit.x > 70) // 70% 이상 넘어왔을 때
+			int myunitx = my_unitX();
+			if (myunitx > 70) // 70% 이상 넘어왔을 때
 			{
-				level_my_unit = Highmyunit();
+				level_my_unit = HighUnit();
 				random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
-				if (level_my_unit > 2)
+
+				if (level_my_unit > 4)
 				{
 					random_level = level_my_unit - random_level; // 아군 유닛 최고 티어 레벨에서 -1 또는 -2
 				}
-				spawnEnemyUnit(random_level);
+				spawnUnit(1, true, random_level);
 				Tag = 0;
 			}
-			else if (my_unit.x > 50) // 50% 이상 넘어왔을 때
+			else if (myunitx > 50) // 50% 이상 넘어왔을 때
 			{
-				random_level = get_random() // 1 또는 2 레벨 중 랜덤 선택
-				spawnEnemyUnit(random_level);
+				random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
+				spawnUnit(1, true, random_level);
 				Tag = 0;
 			}
 			break;
