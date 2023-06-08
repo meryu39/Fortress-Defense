@@ -1,0 +1,6 @@
+﻿  소스.c
+C:\Users\ParkSejin\Documents\GitHub\tool\unit move\자료구조 유닛\소스.c(80,25): warning C4305: '함수': 'int'에서 'char'(으)로 잘립니다.
+C:\Users\ParkSejin\Documents\GitHub\tool\unit move\자료구조 유닛\소스.c(83,25): warning C4305: '함수': 'int'에서 'char'(으)로 잘립니다.
+C:\Users\ParkSejin\Documents\GitHub\tool\unit move\자료구조 유닛\소스.c(86,25): warning C4305: '함수': 'int'에서 'char'(으)로 잘립니다.
+C:\Users\ParkSejin\Documents\GitHub\tool\unit move\자료구조 유닛\소스.c(75,13): error C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _kbhit. See online help for details.
+C:\Users\ParkSejin\Documents\GitHub\tool\unit move\자료구조 유닛\소스.c(76,23): error C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.

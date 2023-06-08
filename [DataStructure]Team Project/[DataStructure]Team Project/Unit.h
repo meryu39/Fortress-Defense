@@ -1,0 +1,58 @@
+#pragma once
+#include"ProgramBase.h"
+#include"PrintScreen.h"
+
+#define MAX_UNITS 5
+#define UNIT_SPEED 1
+#define SPAWNPOINT_TEAM_X 3
+#define SPAWNPOINT_TEAM_Y FIELD_HEIGHT - 1
+#define SPAWNPOINT_ENEMY_X FIELD_WIDTH - 9
+#define SPAWNPOINT_ENEMY_Y FIELD_HEIGHT - 1
+
+// 병사에 대한 상수값
+#define SOLDIER_SPAWNTIME 60
+#define SOLDIER_MAXHP 100
+#define SOLDIER_RANGE 1
+#define SOLDIER_DAMAGE 30
+#define SOLDIER_PRICE 35
+#define SOLDIER_KILLBONUS 35
+#define SOLDIER_DELAYMOVE 15
+#define SOLDIER_DELAYATTACK 15
+// 궁병에 대한 상수값
+
+// 창병에 대한 상수값
+
+// 투창병에 대한 상수값
+
+// 기마병에 대한 상수값
+
+// 투석기에 대한 상수값
+
+// 성기사에 대한 상수값
+
+// 장군에 대한 상수값
+
+
+// 현재 필드에 있는 유닛의 정보를 담고 있는 이중연결리스트 구조이다.
+typedef struct LinkedList_currentUnit
+{
+	Unit* unit;
+	struct LinkedList_currentUnit* llink;
+	struct LinkedList_currentUnit* rlink;
+}LinkedList_currentUnit;
+
+//유닛과 관련된 데이터를 초기화하는 함수이다.
+void init_unit();
+
+//unitCode와 적 유무(true면 적 유닛)을 매개변수로 받아 유닛을 소환하는 함수이다. 추후에 키보드버튼이벤트와 적AI가 이 함수를 호출하면 원하는 유닛을 소환할 수 있다.
+void spawnUnit(int unitCode, bool enemy);
+
+// 매 프레임마다 유닛의 상태를 확인한 후 이동/공격을 제어하는 함수이다.
+void unitControl();
+// 유닛이 공격했을 때 상호작용이 담긴 함수이다. 추후 적 유닛을 잡고 나서 보너스 골드에 대한 내용을 담으면 된다.
+void attackUnit(Unit* attacker, Unit* attackedUnit);
+
+// 유닛에 사용하는 큐를 연결리스트로 구현하기 위해 사용한 것이다.
+void LinkedList_insert(LinkedList_currentUnit* before, Unit* newUnit);
+LinkedList_currentUnit* LinkedList_delete(LinkedList_currentUnit* head, LinkedList_currentUnit* deleteNode);
+
