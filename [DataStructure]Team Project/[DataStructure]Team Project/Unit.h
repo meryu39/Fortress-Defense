@@ -77,7 +77,7 @@
 #define GENERAL_DELAYATTACK 15
 
 
-enum unitcode {SOLDIER = 1, ARCHER,SPEAR,JAVELIN, HORSE, PALADIN
+enum unitcode {SOLDIER = 1, ARCHER,SPEAR,JAVELIN, HORSE, PALADIN,GENERAL
 };
 // 현재 필드에 있는 유닛의 정보를 담고 있는 이중연결리스트 구조이다.
 typedef struct LinkedList_currentUnit
@@ -92,6 +92,8 @@ typedef struct SpawnQueue
 	int unitCode;
 	int spawnTime;
 }SpawnQueue;
+
+
 
 //유닛과 관련된 데이터를 초기화하는 함수이다.
 void init_unit();

@@ -3,6 +3,8 @@
 extern FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 LinkedList_currentUnit* head;
 
+int Stage1myCamp = 500;
+int Stage1enemyCamp = 500;
 void spawnUnit(int unitCode, bool enemy)
 {
 	Unit* newUnit = (Unit*)malloc(sizeof(Unit));
@@ -149,6 +151,7 @@ void unitControl()
 					is_attack = true;
 					break;
 				}
+
 			}
 			if (is_attack)
 			{
@@ -171,7 +174,43 @@ void unitControl()
 				nowNode->unit->cooltime_move = nowNode->unit->delay_move;
 				is_move = true;
 			}
-			if (is_move)	continue;
+			//성채 구현 
+			if (is_move)
+			{
+				if (nowNode->unit->enemy && nowNode->unit->x < 5)
+				{
+					Stage1myCamp -= nowNode->unit->damage;
+					nowNode->unit->hp = 0;
+					LinkedList_currentUnit* deleteNode = nowNode;
+					nowNode = nowNode->llink;
+					head = LinkedList_delete(head, deleteNode);
+					continue;
+				}
+				else if (!nowNode->unit->enemy && nowNode->unit->x > 86)
+				{
+					Stage1enemyCamp -= nowNode->unit->damage;
+					nowNode->unit->hp = 0;
+					LinkedList_currentUnit* deleteNode = nowNode;
+					nowNode = nowNode->llink;
+					head = LinkedList_delete(head, deleteNode);
+					continue;
+				}
+				goto_xy(0,12);
+				printf("아군성채: %d\n", Stage1myCamp);
+				goto_xy(80,12);
+				printf("적군성채: %d", Stage1enemyCamp);
+				if (Stage1enemyCamp <= 0) {
+					goto_xy(50, 5);
+					printf("아군승리\n");
+					//다음스테이지로 가는 함수선언
+				}
+				else if (Stage1myCamp <= 0) {
+					goto_xy(50, 5);
+					printf("적군승리\n");
+					//스테이지 다시 시작 
+				}
+				continue;
+			}
 		}
 		nowNode->unit->cooltime_move--;
 	}
@@ -321,7 +360,7 @@ int UnitAI()
 				spawnUnit(random_level, true); //유닛 생성시 매개변수 추가해서 레벨을 받을 수 있도록 해야함 !!!레벨 또는 골드 
 				Tag = 0;
 			}
-			if (level_my_unit > 4)
+			else if (level_my_unit > 4)
 			{
 				goto_xy(0, 23);
 				printf("level_my_unit : %d\n", level_my_unit);

@@ -43,7 +43,8 @@ void inputManager()
 		case'6':
 			spawnQueue(PALADIN, ARCHER_SPAWNTIME);
 			break;
-
+		case'7':
+			spawnQueue(GENERAL, GENERAL_SPAWNTIME);
 		}
 	}
 }
