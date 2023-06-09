@@ -16,7 +16,7 @@
 #define SOLDIER_RANGE 1
 #define SOLDIER_DAMAGE 30
 #define SOLDIER_PRICE 35
-#define SOLDIER_KILLBONUS 35
+#define SOLDIER_KILLBONUS 15
 #define SOLDIER_DELAYMOVE 15
 #define SOLDIER_DELAYATTACK 15
 // 궁병에 대한 상수값
@@ -25,23 +25,60 @@
 #define ARCHER_RANGE 5
 #define ARCHER_DAMAGE 25
 #define ARCHER_PRICE 50
-#define ARCHER_KILLBONUS 50
+#define ARCHER_KILLBONUS 25
 #define ARCHER_DELAYMOVE 15
 #define ARCHER_DELAYATTACK 15
 // 창병에 대한 상수값
-
+#define SPEAR_SPAWNTIME 120
+#define SPEAR_MAXHP 110
+#define SPEAR_RANGE 2
+#define SPEAR_DAMAGE 40
+#define SPEAR_PRICE 75
+#define SPEAR_KILLBONUS 40
+#define SPEAR_DELAYMOVE 15
+#define SPEAR_DELAYATTACK 15
 // 투창병에 대한 상수값
-
+#define JAVELIN_SPAWNTIME 160
+#define JAVELIN_MAXHP 90
+#define JAVELIN_RANGE 5
+#define JAVELIN_DAMAGE 35
+#define JAVELIN_PRICE 110
+#define JAVELIN_KILLBONUS 65
+#define JAVELIN_DELAYMOVE 15
+#define JAVELIN_DELAYATTACK 15
 // 기마병에 대한 상수값
-
+#define HORSE_SPAWNTIME 180
+#define HORSE_MAXHP 130
+#define HORSE_RANGE 1
+#define HORSE_DAMAGE 50
+#define HORSE_PRICE 150
+#define HORSE_KILLBONUS 90
+#define HORSE_DELAYMOVE 10
+#define HORSE_DELAYATTACK 15
 // 투석기에 대한 상수값
-
 // 성기사에 대한 상수값
+#define PALADIN_SPAWNTIME 240
+#define PALADIN_MAXHP 170
+#define PALADIN_RANGE 1
+#define PALADIN_DAMAGE 70
+#define PALADIN_PRICE 240
+#define PALADIN_KILLBONUS 110
+#define PALADIN_DELAYMOVE 20
+#define PALADIN_DELAYATTACK 15
 
 // 장군에 대한 상수값
+#define GENERAL_SPAWNTIME 300
+#define GENERAL_MAXHP 250
+#define GENERAL_RANGE 1
+#define GENERAL_DAMAGE 80
+#define GENERAL_PRICE 280
+#define GENERAL_KILLBONUS 130
+#define GENERAL_DELAYMOVE 25
+#define GENERAL_DELAYATTACK 15
 
 
-enum unitcode {SOLDIER = 1, ARCHER};
+enum unitcode {SOLDIER = 1, ARCHER,SPEAR,JAVELIN, HORSE, PALADIN
+};
 // 현재 필드에 있는 유닛의 정보를 담고 있는 이중연결리스트 구조이다.
 typedef struct LinkedList_currentUnit
 {

@@ -32,27 +32,18 @@ void inputManager()
 			spawnQueue(ARCHER, ARCHER_SPAWNTIME);
 			break;
 		case'3':
+			spawnQueue(SPEAR, SPEAR_SPAWNTIME);
 			break;
 		case'4':
+			spawnQueue(JAVELIN, ARCHER_SPAWNTIME);
 			break;
 		case'5':
-
+			spawnQueue(HORSE, ARCHER_SPAWNTIME);
 			break;
 		case'6':
-
+			spawnQueue(PALADIN, ARCHER_SPAWNTIME);
 			break;
-		case'7':
 
-			break;
-		case'8':
-
-			break;
-		case'9':
-
-			break;
 		}
-
-
-
 	}
 }

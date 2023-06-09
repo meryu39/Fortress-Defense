@@ -28,7 +28,7 @@ void spawnUnit(int unitCode, bool enemy)
 		newUnit->delay_move = SOLDIER_DELAYMOVE;
 		newUnit->delay_attack = SOLDIER_DELAYATTACK;
 		field[spawnpoint_y][spawnpoint_x].shape.look = 'A';
-		
+
 		break;
 	case 2:
 		newUnit->hp = ARCHER_MAXHP;
@@ -43,8 +43,68 @@ void spawnUnit(int unitCode, bool enemy)
 		field[spawnpoint_y][spawnpoint_x].shape.look = 'B';
 
 		break;
-
+	case 3:
+		newUnit->hp = SPEAR_MAXHP;
+		newUnit->range = SPEAR_RANGE;
+		newUnit->damage = SPEAR_DAMAGE;
+		newUnit->price = SPEAR_PRICE;
+		newUnit->kill_bonus = SPEAR_KILLBONUS;
+		newUnit->cooltime_move = SPEAR_DELAYMOVE;
+		newUnit->cooltime_attack = SPEAR_DELAYATTACK;
+		newUnit->delay_move = SPEAR_DELAYMOVE;
+		newUnit->delay_attack = SPEAR_DELAYATTACK;
+		field[spawnpoint_y][spawnpoint_x].shape.look = 'C';
+		break;
+	case 4:
+		newUnit->hp = JAVELIN_MAXHP;
+		newUnit->range = JAVELIN_RANGE;
+		newUnit->damage = JAVELIN_DAMAGE;
+		newUnit->price = JAVELIN_PRICE;
+		newUnit->kill_bonus = JAVELIN_KILLBONUS;
+		newUnit->cooltime_move = JAVELIN_DELAYMOVE;
+		newUnit->cooltime_attack = JAVELIN_DELAYATTACK;
+		newUnit->delay_move = JAVELIN_DELAYMOVE;
+		newUnit->delay_attack = JAVELIN_DELAYATTACK;
+		field[spawnpoint_y][spawnpoint_x].shape.look = 'D';
+		break;
+	case 5:
+		newUnit->hp = HORSE_MAXHP;
+		newUnit->range = HORSE_RANGE;
+		newUnit->damage = HORSE_DAMAGE;
+		newUnit->price = HORSE_PRICE;
+		newUnit->kill_bonus = HORSE_KILLBONUS;
+		newUnit->cooltime_move = HORSE_DELAYMOVE;
+		newUnit->cooltime_attack = HORSE_DELAYATTACK;
+		newUnit->delay_move = HORSE_DELAYMOVE;
+		newUnit->delay_attack = HORSE_DELAYATTACK;
+		field[spawnpoint_y][spawnpoint_x].shape.look = 'F';
+		break;
+	case 6:
+		newUnit->hp = PALADIN_MAXHP;
+		newUnit->range = PALADIN_RANGE;
+		newUnit->damage = PALADIN_DAMAGE;
+		newUnit->price = PALADIN_PRICE;
+		newUnit->kill_bonus = PALADIN_KILLBONUS;
+		newUnit->cooltime_move = PALADIN_DELAYMOVE;
+		newUnit->cooltime_attack = PALADIN_DELAYATTACK;
+		newUnit->delay_move = PALADIN_DELAYMOVE;
+		newUnit->delay_attack = PALADIN_DELAYATTACK;
+		field[spawnpoint_y][spawnpoint_x].shape.look = 'G';
+		break;
+	case 7:
+		newUnit->hp = GENERAL_MAXHP;
+		newUnit->range = GENERAL_RANGE;
+		newUnit->damage = GENERAL_DAMAGE;
+		newUnit->price = GENERAL_PRICE;
+		newUnit->kill_bonus = GENERAL_KILLBONUS;
+		newUnit->cooltime_move = GENERAL_DELAYMOVE;
+		newUnit->cooltime_attack = GENERAL_DELAYATTACK;
+		newUnit->delay_move = GENERAL_DELAYMOVE;
+		newUnit->delay_attack = GENERAL_DELAYATTACK;
+		field[spawnpoint_y][spawnpoint_x].shape.look = 'H';
+		break;
 	}
+
 	field[spawnpoint_y][spawnpoint_x].shape.color = enemy ? RED : BLUE;
 	field[spawnpoint_y][spawnpoint_x].unitData = newUnit;
 	field[spawnpoint_y][spawnpoint_x].code = unitCode;
