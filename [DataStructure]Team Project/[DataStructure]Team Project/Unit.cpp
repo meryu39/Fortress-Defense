@@ -14,6 +14,7 @@ void spawnUnit(int unitCode, bool enemy)
 	
 	// 새로 스폰된 유닛에 대한 정보를 입력한다. unitCode은 유닛의 종류를 의미한다.
 	newUnit->enemy = enemy;
+	newUnit->unit_code = unitCode;
 	switch (unitCode)
 	{
 	case 1:
@@ -26,16 +27,25 @@ void spawnUnit(int unitCode, bool enemy)
 		newUnit->cooltime_attack = SOLDIER_DELAYATTACK;
 		newUnit->delay_move = SOLDIER_DELAYMOVE;
 		newUnit->delay_attack = SOLDIER_DELAYATTACK;
-		field[spawnpoint_y][spawnpoint_x].shape.color = BLUE;
 		field[spawnpoint_y][spawnpoint_x].shape.look = 'A';
-		if (enemy) // 적 모양을 다르게 하기 위한 임시방편
-		{
-			field[spawnpoint_y][spawnpoint_x].shape.color = RED;
-			field[spawnpoint_y][spawnpoint_x].shape.look = 'B';
-		}
+		
+		break;
+	case 2:
+		newUnit->hp = ARCHER_MAXHP;
+		newUnit->range = ARCHER_RANGE;
+		newUnit->damage = ARCHER_DAMAGE;
+		newUnit->price = ARCHER_PRICE;
+		newUnit->kill_bonus = ARCHER_KILLBONUS;
+		newUnit->cooltime_move = ARCHER_DELAYMOVE;
+		newUnit->cooltime_attack = ARCHER_DELAYATTACK;
+		newUnit->delay_move = ARCHER_DELAYMOVE;
+		newUnit->delay_attack = ARCHER_DELAYATTACK;
+		field[spawnpoint_y][spawnpoint_x].shape.look = 'B';
+
 		break;
 
 	}
+	field[spawnpoint_y][spawnpoint_x].shape.color = enemy ? RED : BLUE;
 	field[spawnpoint_y][spawnpoint_x].unitData = newUnit;
 	field[spawnpoint_y][spawnpoint_x].code = unitCode;
 	
@@ -46,7 +56,7 @@ void spawnUnit(int unitCode, bool enemy)
 void unitControl()
 {
 	// 상호작용이 일어나는 대상의 좌표이다. 공격 시에는 공격대상이 있는 좌표, 이동 시에는 이동할 좌표이다.
-	int X;	
+	int X;
 	int Y;
 	// 이동/공격을 할 경우 true가 된다. 이를 통해 이동 및 공격을 동시에 하지 않도록 방지한다.
 	bool is_attack = false;
@@ -58,7 +68,7 @@ void unitControl()
 		is_attack = false;
 		is_move = false;
 		// 탐색하는 유닛의 체력이 0 이하인 경우 이중연결리스트에서 유닛의 정보를 삭제한다.
-		if (nowNode->unit->hp <= 0)
+		if (nowNode->unit->hp <= 0 || nowNode->unit->x >= FIELD_WIDTH || nowNode->unit->x <= 0)
 		{
 			LinkedList_currentUnit* deleteNode = nowNode;
 			nowNode = nowNode->llink;
@@ -76,8 +86,6 @@ void unitControl()
 				{
 					attackUnit(nowNode->unit, field[Y][X].unitData);
 					nowNode->unit->cooltime_attack = nowNode->unit->delay_attack;
-					goto_xy({ 0, 28 });
-					printf("공격했습니다!\n");
 					is_attack = true;
 					break;
 				}
@@ -133,21 +141,65 @@ void attackUnit(Unit* attacker, Unit* attackedUnit)
 
 	return;
 }
+
+bool spawnQueue(int unitCode, int spawn_tick)
+{
+	static SpawnQueue spawnQueue[MAX_UNITQUEUE] = { 0 };
+	static int frontIndex = 0;
+	static int rearIndex = 0;
+
+	goto_xy(0, 23);
+	for (int i = 0; i < MAX_UNITQUEUE; i++)
+	{
+		if (rearIndex + i >= frontIndex)
+		{
+			printf("  ");
+			continue;
+		}
+		printf("%d ", spawnQueue[(rearIndex+i)%MAX_UNITQUEUE].unitCode);
+	}
+	if (unitCode == -1 && frontIndex % MAX_UNITQUEUE != rearIndex % MAX_UNITQUEUE)
+	{
+		spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime--;
+		if (spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime <= 0)
+		{
+			spawnUnit(spawnQueue[rearIndex % MAX_UNITQUEUE].unitCode, false);
+			rearIndex++;
+		}
+	}
+	if ((frontIndex + 1) % MAX_UNITQUEUE == rearIndex % MAX_UNITQUEUE)
+	{
+		goto_xy(0, 22);
+		printf("소환대기열이 가득찼습니다.\n");
+		return false;
+	}
+	else if (unitCode != -1)
+	{
+		spawnQueue[(frontIndex++) % MAX_UNITQUEUE] = { unitCode, spawn_tick };
+		goto_xy(0, 22);
+		printf("                                    ");
+	}
+	
+	return true;
+}
+
+
+
 //AI
-/*
+
 int HighUnit()
 {
-	int maxprice = 0;
+	int maxLevel = 0;
 
 	for (LinkedList_currentUnit* nowNode = head->rlink; nowNode != head; nowNode = nowNode->rlink)
 	{
-		if (!nowNode->unit->enemy && nowNode->unit->price > maxprice)
+		if (!nowNode->unit->enemy && nowNode->unit->unit_code > maxLevel)
 		{
-			maxprice = nowNode->unit->price;
+			maxLevel = nowNode->unit->unit_code;
 		}
 	}
 
-	return maxprice;
+	return maxLevel;
 }
 
 int my_unitX()
@@ -192,7 +244,7 @@ int myunit_find(){
 
 int UnitAI()
 {
-	int Tag = 1; // 초기 Tick 값 설정
+	int Tag = 1; // 초기 Tag 값 설정
 	int count_my_unit = myunit_find(); // 필드에 존재하는 적 유닛 수
 	int level_my_unit = HighUnit(); // 필드에 존재하는 아군 유닛 최고 티어 레벨
 	int random_level; // 랜덤으로 선택된 레벨 변수
@@ -203,16 +255,18 @@ int UnitAI()
 		{
 		case 1: // 기본 생성
 			
-			if (count_my_unit <= 3)
+			if (count_my_unit <= 10)
 			{
 				random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
-				spawnUnit(1, true,random_level); //유닛 생성시 매개변수 추가해서 레벨을 받을 수 있도록 해야함 !!!레벨 또는 골드 
+				spawnUnit(random_level, true); //유닛 생성시 매개변수 추가해서 레벨을 받을 수 있도록 해야함 !!!레벨 또는 골드 
 				Tag = 0;
 			}
 			if (level_my_unit > 4)
 			{
+				goto_xy(0, 23);
+				printf("level_my_unit : %d\n", level_my_unit);
 				int unitlevel = level_my_unit - 2; // 아군 유닛 최고 티어 레벨에서 2 감소
-				spawnUnit(1, true, unitlevel); //유닛 레벨로 설정 
+				spawnUnit(unitlevel, true); //유닛 레벨로 설정 
 				Tag = 0;
 			}
 			break;
@@ -228,13 +282,13 @@ int UnitAI()
 				{
 					random_level = level_my_unit - random_level; // 아군 유닛 최고 티어 레벨에서 -1 또는 -2
 				}
-				spawnUnit(1, true, random_level);
+				spawnUnit(random_level, true);
 				Tag = 0;
 			}
 			else if (myunitx > 50) // 50% 이상 넘어왔을 때
 			{
 				random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
-				spawnUnit(1, true, random_level);
+				spawnUnit(random_level, true);
 				Tag = 0;
 			}
 			break;
@@ -243,7 +297,7 @@ int UnitAI()
 
 	return 0;
 }
-*/
+
 void LinkedList_insert(LinkedList_currentUnit* before, Unit* newUnit)
 {
 	LinkedList_currentUnit* newList = (LinkedList_currentUnit*)malloc(sizeof(LinkedList_currentUnit));

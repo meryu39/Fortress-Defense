@@ -2,6 +2,7 @@
 #include"PrintScreen.h"
 #include"Unit.h"
 #include"Resource.h"
+#include"GameManager.h"
 
 FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 
@@ -16,36 +17,24 @@ int main(void)
 {
     int tick = 0;
     time_t startTime = clock();
-    init_unit();
-    printScreen(NULL);
-    for (int y = 0; y < FIELD_HEIGHT; y++)
+    init_game();
+    
+    while (tick <= 50000)
     {
-        for (int x = 0; x < FIELD_WIDTH; x++)
-        {
-            field[y][x].code = 0;
-            field[y][x].shape.look = ' ';
-            field[y][x].shape.color = 7;
-            field[y][x].unitData = NULL;
-        }
-    }
-    spawnUnit(1, false);
-    spawnUnit(1, true);
-    while (tick <= 2000)
-    {
+        inputManager();
         if (clock() - startTime >= TICK * 1000)
         {
             unitControl();
             printScreen(field);
+            spawnQueue();
             tick++;
             startTime = clock();
+
             if (tick % 200 == 0)
             {
-                spawnUnit(1, false);
-                spawnUnit(1, true);
+                UnitAI();
             }
-
             goto_xy(0, 21);
-
         }
     }
 
@@ -92,7 +81,7 @@ int main() {
                 addUnit('¤¡');
                 break;
             case '2':
-                addUnit('¤¤');
+                addUnit('¤¤');   
                 break;
             case '3':
                 addUnit('¤§');

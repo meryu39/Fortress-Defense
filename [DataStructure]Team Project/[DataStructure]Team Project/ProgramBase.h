@@ -35,6 +35,7 @@ typedef struct
 	int cooltime_attack;			// 공격까지 남은 tick
 	int delay_move;					// 이동속도(이동에 필요한 tick)
 	int delay_attack;				// 공격속도(공격에 필요한 tick)
+	int unit_code;
 }Unit;
 
 //게임 필드의 정보를 담고 있는 구조체

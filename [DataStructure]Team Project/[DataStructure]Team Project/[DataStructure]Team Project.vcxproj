@@ -127,12 +127,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PrintScreen.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="PrintScreen.h" />
     <ClInclude Include="ProgramBase.h" />
     <ClInclude Include="Resource.h" />

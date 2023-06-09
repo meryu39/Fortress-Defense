@@ -2,7 +2,8 @@
 #include"ProgramBase.h"
 #include"PrintScreen.h"
 
-#define MAX_UNITS 5
+
+#define MAX_UNITQUEUE (5+1)		//원형큐는 한자리를 full 여부 구분용도로 쓰므로 최대자리+1
 #define UNIT_SPEED 1
 #define SPAWNPOINT_TEAM_X 3
 #define SPAWNPOINT_TEAM_Y FIELD_HEIGHT - 1
@@ -19,7 +20,14 @@
 #define SOLDIER_DELAYMOVE 15
 #define SOLDIER_DELAYATTACK 15
 // 궁병에 대한 상수값
-
+#define ARCHER_SPAWNTIME 100
+#define ARCHER_MAXHP 85
+#define ARCHER_RANGE 5
+#define ARCHER_DAMAGE 25
+#define ARCHER_PRICE 50
+#define ARCHER_KILLBONUS 50
+#define ARCHER_DELAYMOVE 15
+#define ARCHER_DELAYATTACK 15
 // 창병에 대한 상수값
 
 // 투창병에 대한 상수값
@@ -33,6 +41,7 @@
 // 장군에 대한 상수값
 
 
+enum unitcode {SOLDIER = 1, ARCHER};
 // 현재 필드에 있는 유닛의 정보를 담고 있는 이중연결리스트 구조이다.
 typedef struct LinkedList_currentUnit
 {
@@ -40,6 +49,12 @@ typedef struct LinkedList_currentUnit
 	struct LinkedList_currentUnit* llink;
 	struct LinkedList_currentUnit* rlink;
 }LinkedList_currentUnit;
+
+typedef struct SpawnQueue
+{
+	int unitCode;
+	int spawnTime;
+}SpawnQueue;
 
 //유닛과 관련된 데이터를 초기화하는 함수이다.
 void init_unit();
@@ -52,7 +67,17 @@ void unitControl();
 // 유닛이 공격했을 때 상호작용이 담긴 함수이다. 추후 적 유닛을 잡고 나서 보너스 골드에 대한 내용을 담으면 된다.
 void attackUnit(Unit* attacker, Unit* attackedUnit);
 
+// 유닛 소환대기열을 관리하는 함수이다. 소환하고자 하는 유닛의 코드와 소환시간을 전달하면 알아서 유닛 소환대기열에 추가하여 시간이 지난 후 스폰된다.
+bool spawnQueue(int unitCode = -1, int spawn_tick = -1);
+
 // 유닛에 사용하는 큐를 연결리스트로 구현하기 위해 사용한 것이다.
 void LinkedList_insert(LinkedList_currentUnit* before, Unit* newUnit);
 LinkedList_currentUnit* LinkedList_delete(LinkedList_currentUnit* head, LinkedList_currentUnit* deleteNode);
+
+int HighUnit();
+int my_unitX();
+int get_random();
+int UnitAI();
+int myunit_find();
+int UnitAI();
 
