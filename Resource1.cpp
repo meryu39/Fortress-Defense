@@ -53,9 +53,9 @@ int main() {
         resource += INCREASE_RESOURCE;
 
         // 유닛 소환을 위한 사용자 입력 프롬프트
-        char unit;
+        char unit = '\0';
         printf("\n\n유닛을 선택하세요 [A/B/C] 또는 Q를 눌러 종료:");
-        unit = getch();
+        if(kbhit())	unit = getch();
 
         // 유닛 소환을 위한 자원 차감
         if (unit == 'a' || unit == 'A') {
@@ -91,7 +91,8 @@ int main() {
         else if (unit == 'q' || unit == 'Q') {
             break;
         }
-    }
+        Sleep(50);
+	}
     
     return 0;
 }
