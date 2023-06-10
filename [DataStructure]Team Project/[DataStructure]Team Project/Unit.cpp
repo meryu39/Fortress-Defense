@@ -361,21 +361,18 @@ int UnitAI()
 		switch (Tag)
 		{
 		case 1: // 기본 생성
-			
-			if (count_my_unit <= 10)
-			{
-				random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
-				spawnUnit(random_level, true); //유닛 생성시 매개변수 추가해서 레벨을 받을 수 있도록 해야함 !!!레벨 또는 골드 
-				Tag = 0;
-			}
-			else if (level_my_unit > 4)
+			if (level_my_unit > 4)
 			{
 				goto_xy(0, 23);
 				printf("level_my_unit : %d\n", level_my_unit);
 				int unitlevel = level_my_unit - 2; // 아군 유닛 최고 티어 레벨에서 2 감소
 				spawnUnit(unitlevel, true); //유닛 레벨로 설정 
 				Tag = 0;
+				break;
 			}
+			random_level = get_random(); // 1 또는 2 레벨 중 랜덤 선택
+			spawnUnit(random_level, true); //유닛 생성시 매개변수 추가해서 레벨을 받을 수 있도록 해야함 !!!레벨 또는 골드 
+			Tag = 0;
 			break;
 
 		case 2: // 좌표 관련 생성
