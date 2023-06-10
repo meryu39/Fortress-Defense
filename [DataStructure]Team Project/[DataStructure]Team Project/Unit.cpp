@@ -1,18 +1,24 @@
 #include"Unit.h"
 
+
 extern FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 LinkedList_currentUnit* head;
 
-int Stage1myCamp = 500;
-int Stage1enemyCamp = 500;
+Unit *mycamp;
+Unit *enemycamp;
+
+
 void spawnUnit(int unitCode, bool enemy)
 {
+	
 	Unit* newUnit = (Unit*)malloc(sizeof(Unit));
 	// 유닛의 스폰 포인트 지정
 	int spawnpoint_x = enemy ? SPAWNPOINT_ENEMY_X : SPAWNPOINT_TEAM_X;
 	int spawnpoint_y = enemy ? SPAWNPOINT_ENEMY_Y : SPAWNPOINT_TEAM_Y;
 	newUnit->x = spawnpoint_x;
 	newUnit->y = spawnpoint_y;
+	
+	
 	
 	// 새로 스폰된 유닛에 대한 정보를 입력한다. unitCode은 유닛의 종류를 의미한다.
 	newUnit->enemy = enemy;
@@ -117,6 +123,8 @@ void spawnUnit(int unitCode, bool enemy)
 
 void unitControl()
 {
+	
+	
 	// 상호작용이 일어나는 대상의 좌표이다. 공격 시에는 공격대상이 있는 좌표, 이동 시에는 이동할 좌표이다.
 	int X;
 	int Y;
@@ -179,8 +187,8 @@ void unitControl()
 			{
 				if (nowNode->unit->enemy && nowNode->unit->x < 5)
 				{
-					Stage1myCamp -= nowNode->unit->damage;
-					nowNode->unit->hp = 0;
+					mycamp->hp -= nowNode->unit->damage;
+					attackUnit(mycamp, nowNode->unit);
 					LinkedList_currentUnit* deleteNode = nowNode;
 					nowNode = nowNode->llink;
 					head = LinkedList_delete(head, deleteNode);
@@ -188,23 +196,23 @@ void unitControl()
 				}
 				else if (!nowNode->unit->enemy && nowNode->unit->x > 86)
 				{
-					Stage1enemyCamp -= nowNode->unit->damage;
-					nowNode->unit->hp = 0;
+					enemycamp->hp -= nowNode->unit->damage;
+					attackUnit(mycamp, nowNode->unit);
 					LinkedList_currentUnit* deleteNode = nowNode;
 					nowNode = nowNode->llink;
 					head = LinkedList_delete(head, deleteNode);
 					continue;
 				}
 				goto_xy(0,12);
-				printf("아군성채: %d\n", Stage1myCamp);
+				printf("아군성채: %d\n", mycamp->hp);
 				goto_xy(80,12);
-				printf("적군성채: %d", Stage1enemyCamp);
-				if (Stage1enemyCamp <= 0) {
+				printf("적군성채: %d", enemycamp->hp);
+				if (enemycamp->hp <= 0) {
 					goto_xy(50, 5);
 					printf("아군승리\n");
 					//다음스테이지로 가는 함수선언
 				}
-				else if (Stage1myCamp <= 0) {
+				else if (mycamp->hp <= 0) {
 					goto_xy(50, 5);
 					printf("적군승리\n");
 					//스테이지 다시 시작 
@@ -424,4 +432,13 @@ void init_unit()
 	head = (LinkedList_currentUnit*)malloc(sizeof(LinkedList_currentUnit));
 	head->rlink = head;
 	head->llink = head;
+}
+
+void init_camp() {
+	mycamp = (Unit*)malloc(sizeof(Unit));
+	enemycamp = (Unit*)malloc(sizeof(Unit));
+	mycamp->hp = 500;
+	mycamp->damage = 5000;
+	enemycamp->hp = 500;
+	enemycamp->damage = 5000;
 }

@@ -18,7 +18,7 @@ int main(void)
     int tick = 0;
     time_t startTime = clock();
     init_game();
-    
+    init_camp();
     while (tick <= 50000)
     {
         inputManager();
