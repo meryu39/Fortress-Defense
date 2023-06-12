@@ -3,6 +3,8 @@
 
 char defaultMap[FIELD_HEIGHT][FIELD_WIDTH];
 extern int resource;
+extern Unit* mycamp;
+extern Unit* enemycamp;
 
 void setColor(unsigned short color)
 {
@@ -85,7 +87,13 @@ void printScreen(FieldData (*inputData)[FIELD_WIDTH])
 
 void printUI()
 {
-	goto_xy(0, 12);
+	goto_xy(0, 11);
 	setColor(WHITE);
-	printf("자원 : %d      ", resource);
+	printf("GOLD%5d      ", resource);
+
+	//체력 출력
+	goto_xy(2, 2);
+	printf("%d\n", mycamp->hp);
+	goto_xy(93, 2);
+	printf("%d", enemycamp->hp);
 }

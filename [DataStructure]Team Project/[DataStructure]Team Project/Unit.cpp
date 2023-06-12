@@ -206,10 +206,6 @@ void unitControl()
 					head = LinkedList_delete(head, deleteNode);
 					continue;
 				}
-				goto_xy(0,12);
-				printf("아군성채: %d\n", mycamp->hp);
-				goto_xy(80,12);
-				printf("적군성채: %d", enemycamp->hp);
 				if (enemycamp->hp <= 0) {
 					goto_xy(50, 5);
 					printf("아군승리\n");
@@ -261,12 +257,12 @@ bool spawnQueue(int unitCode, int spawn_tick)
 	static int frontIndex = 0;
 	static int rearIndex = 0;
 
-	goto_xy(0, 23);
 	for (int i = 0; i < MAX_UNITQUEUE; i++)
 	{
+		goto_xy(2 + 6 * i, FIELD_HEIGHT + 3);
 		if (rearIndex + i >= frontIndex)
 		{
-			printf("  ");
+			printf(" ");
 			continue;
 		}
 		printf("%d ", spawnQueue[(rearIndex+i)%MAX_UNITQUEUE].unitCode);

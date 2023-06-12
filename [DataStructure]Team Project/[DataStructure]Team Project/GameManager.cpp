@@ -43,6 +43,37 @@ void init_game()
 	goto_xy(FIELD_WIDTH, FIELD_HEIGHT);
 	printf("旭");
 
+	for (int i = 0; i < 30; i++)
+	{
+		if (i % 6 == 0)
+		{
+			goto_xy(i, FIELD_HEIGHT + 2);
+			printf("旨");
+			goto_xy(i, FIELD_HEIGHT + 3);
+			printf("早");
+			goto_xy(i, FIELD_HEIGHT + 4);
+			printf("曲");
+		}
+		if (i % 6 == 1 || i%6 == 2 || i%6 == 3)
+		{
+			goto_xy(i, FIELD_HEIGHT + 2);
+			printf("收");
+			goto_xy(i, FIELD_HEIGHT + 2);
+			goto_xy(i, FIELD_HEIGHT + 4);
+			printf("收");
+		}
+		if (i % 6 == 4)
+		{
+			goto_xy(i, FIELD_HEIGHT + 2);
+			printf("旬");
+			goto_xy(i, FIELD_HEIGHT + 3);
+			printf("早");
+			goto_xy(i, FIELD_HEIGHT + 4);
+			printf("旭");
+		}
+		
+	}
+
 
 }
 
