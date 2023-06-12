@@ -3,10 +3,11 @@
 
 extern FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 int resource = 0;
+extern int currentStage;
 
 void init_game()
 {
-	init_unit();
+	init_unit(currentStage);
 	printScreen(NULL);
 	for (int y = 0; y < FIELD_HEIGHT; y++)
 	{

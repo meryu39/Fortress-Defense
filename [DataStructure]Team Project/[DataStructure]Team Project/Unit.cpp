@@ -8,6 +8,8 @@ extern int resource;
 Unit *mycamp;
 Unit *enemycamp;
 
+int StageHP[5] = { 500,1000,1500,2000,2500 };
+extern int currentStage;
 
 void spawnUnit(int unitCode, bool enemy)
 {
@@ -211,12 +213,14 @@ void unitControl()
 				if (enemycamp->hp <= 0) {
 					goto_xy(50, 5);
 					printf("아군승리\n");
-					//다음스테이지로 가는 함수선언
+					nextStage();
+					return;
 				}
 				else if (mycamp->hp <= 0) {
 					goto_xy(50, 5);
 					printf("적군승리\n");
-					//스테이지 다시 시작 
+					replay();
+					return;
 				}
 				continue;
 			}
@@ -426,7 +430,7 @@ LinkedList_currentUnit* LinkedList_delete(LinkedList_currentUnit* head, LinkedLi
 	return head;
 }
 
-void init_unit()
+void init_unit(int currentStage)
 {
 	head = (LinkedList_currentUnit*)malloc(sizeof(LinkedList_currentUnit));
 	head->rlink = head;
@@ -436,6 +440,16 @@ void init_unit()
 	enemycamp = (Unit*)malloc(sizeof(Unit));
 	mycamp->hp = 500;
 	mycamp->damage = 5000;
-	enemycamp->hp = 500;
+	enemycamp->hp = StageHP[currentStage];
 	enemycamp->damage = 5000;
+}
+
+void nextStage() {
+	currentStage++;
+	init_unit(currentStage);
+	
+}
+
+void replay() {
+	init_unit(currentStage);
 }

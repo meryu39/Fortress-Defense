@@ -96,7 +96,7 @@ typedef struct SpawnQueue
 
 
 //유닛과 관련된 데이터를 초기화하는 함수이다.
-void init_unit();
+void init_unit(int currentStage);
 
 //unitCode와 적 유무(true면 적 유닛)을 매개변수로 받아 유닛을 소환하는 함수이다. 추후에 키보드버튼이벤트와 적AI가 이 함수를 호출하면 원하는 유닛을 소환할 수 있다.
 void spawnUnit(int unitCode, bool enemy);
@@ -112,6 +112,10 @@ bool spawnQueue(int unitCode = -1, int spawn_tick = -1);
 // 유닛에 사용하는 큐를 연결리스트로 구현하기 위해 사용한 것이다.
 void LinkedList_insert(LinkedList_currentUnit* before, Unit* newUnit);
 LinkedList_currentUnit* LinkedList_delete(LinkedList_currentUnit* head, LinkedList_currentUnit* deleteNode);
+
+void nextStage();
+void replay();
+
 
 int HighUnit();
 int my_unitX();

@@ -11,6 +11,7 @@
 
 FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 
+int currentStage = 0;
 
 int main(void)
 {
