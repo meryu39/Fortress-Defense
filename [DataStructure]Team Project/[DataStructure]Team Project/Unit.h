@@ -7,11 +7,11 @@
 #define UNIT_SPEED 1
 #define SPAWNPOINT_TEAM_X 3
 #define SPAWNPOINT_TEAM_Y FIELD_HEIGHT - 1
-#define SPAWNPOINT_ENEMY_X FIELD_WIDTH - 9
+#define SPAWNPOINT_ENEMY_X FIELD_WIDTH - 6
 #define SPAWNPOINT_ENEMY_Y FIELD_HEIGHT - 1
 
 // 병사에 대한 상수값
-#define SOLDIER_SPAWNTIME 20
+#define SOLDIER_SPAWNTIME 60
 #define SOLDIER_MAXHP 100
 #define SOLDIER_RANGE 1
 #define SOLDIER_DAMAGE 30
@@ -97,9 +97,6 @@ typedef struct SpawnQueue
 
 //유닛과 관련된 데이터를 초기화하는 함수이다.
 void init_unit();
-
-//성채 초기화
-void init_camp();
 
 //unitCode와 적 유무(true면 적 유닛)을 매개변수로 받아 유닛을 소환하는 함수이다. 추후에 키보드버튼이벤트와 적AI가 이 함수를 호출하면 원하는 유닛을 소환할 수 있다.
 void spawnUnit(int unitCode, bool enemy);

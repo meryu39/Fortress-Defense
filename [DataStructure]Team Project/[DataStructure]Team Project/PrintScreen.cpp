@@ -2,6 +2,7 @@
 #include"PrintScreen.h"
 
 char defaultMap[FIELD_HEIGHT][FIELD_WIDTH];
+extern int resource;
 
 void setColor(unsigned short color)
 {
@@ -82,7 +83,9 @@ void printScreen(FieldData (*inputData)[FIELD_WIDTH])
 	return;
 }
 
-void init_graph()
+void printUI()
 {
-	return;
+	goto_xy(0, 12);
+	setColor(WHITE);
+	printf("ÀÚ¿ø : %d      ", resource);
 }

@@ -3,6 +3,7 @@
 
 extern FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 LinkedList_currentUnit* head;
+extern int resource;
 
 Unit *mycamp;
 Unit *enemycamp;
@@ -194,7 +195,7 @@ void unitControl()
 					head = LinkedList_delete(head, deleteNode);
 					continue;
 				}
-				else if (!nowNode->unit->enemy && nowNode->unit->x > 86)
+				else if (!nowNode->unit->enemy && nowNode->unit->x > 91)
 				{
 					enemycamp->hp -= nowNode->unit->damage;
 					attackUnit(mycamp, nowNode->unit);
@@ -241,6 +242,7 @@ void attackUnit(Unit* attacker, Unit* attackedUnit)
 		{
 			kill++;
 			printf("적유닛처치! : %d마리째\n", kill);
+			resource += attackedUnit->kill_bonus;
 			// 이 주석을 지우고 킬보너스와 관련된 함수를 넣으면 된다.
 		}
 		
@@ -429,9 +431,7 @@ void init_unit()
 	head = (LinkedList_currentUnit*)malloc(sizeof(LinkedList_currentUnit));
 	head->rlink = head;
 	head->llink = head;
-}
 
-void init_camp() {
 	mycamp = (Unit*)malloc(sizeof(Unit));
 	enemycamp = (Unit*)malloc(sizeof(Unit));
 	mycamp->hp = 500;

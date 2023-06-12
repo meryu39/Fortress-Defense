@@ -11,7 +11,7 @@
 #pragma warning(disable:4996)
 
 #define FIELD_WIDTH 100		//가로크기
-#define FIELD_HEIGHT 20		//세로크기
+#define FIELD_HEIGHT 10		//세로크기
 #define TICK 0.01			//틱(프레임) 한 번당 시간
 
 //유닛의 그래픽 정보를 담고 있는 구조체

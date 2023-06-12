@@ -20,3 +20,4 @@ void goto_xy(Position pos);
 //화면 출력 함수, 이번 프레임과 이전 프레임의 필드 상태를 비교해서 필요한 곳만 출력한다.
 void printScreen(FieldData (*inputData)[FIELD_WIDTH]);
 
+void printUI();

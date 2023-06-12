@@ -3,5 +3,8 @@
 #include"Unit.h"
 #include"PrintScreen.h"
 
-void inputManager();
+#define INCREASE_RESOURCE_BASIC 10
+
 void init_game();
+void inputManager();
+void resourceManager();

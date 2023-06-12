@@ -66,7 +66,7 @@ void resource_variation(int* resource) {
         print_resource(*resource);
 
         // 유닛 A를 처치하는 이벤트가 발생할 때마다 자원 증가
-        if (/*  유닛 A가 처치 */) {
+        if (/*  유닛 A가 처치 */0) {
             (*resource) += (int)(ENEMY_UNIT_A_COST * ENEMY_UNIT_KILL_REWARD);
             print_resource(*resource);
         }

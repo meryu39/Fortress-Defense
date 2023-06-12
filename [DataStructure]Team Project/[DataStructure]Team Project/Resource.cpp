@@ -6,28 +6,7 @@ void print_resource(int resource) {
 }
 
 void print_field() {
-    for (int i = 1; i < FIELD_WIDTH; i++) {
-        goto_xy(i, 0);
-        printf("收");
-        goto_xy(i, FIELD_HEIGHT - 1);
-        printf("收");
-    }
-
-    for (int i = 1; i < FIELD_HEIGHT; i++) {
-        goto_xy(0, i);
-        printf("早");
-        goto_xy((FIELD_WIDTH - 1), i);
-        printf("早");
-    }
-
-    goto_xy(0, 0);
-    printf("旨");
-    goto_xy(0, FIELD_HEIGHT - 1);
-    printf("曲");
-    goto_xy(FIELD_WIDTH - 1, 0);
-    printf("旬");
-    goto_xy(FIELD_WIDTH - 1, FIELD_HEIGHT - 1);
-    printf("旭");
+    
 }
 
 void resource_variation(int* resource) {
