@@ -270,6 +270,8 @@ bool spawnQueue(int unitCode, int spawn_tick)
 	if (unitCode == -1 && frontIndex % MAX_UNITQUEUE != rearIndex % MAX_UNITQUEUE)
 	{
 		spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime--;
+		goto_xy(0, FIELD_HEIGHT + 5);
+		printf("다음 유닛 소환까지 %2.2lf", (double)spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime / TIME_TICKS);
 		if (spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime <= 0)
 		{
 			spawnUnit(spawnQueue[rearIndex % MAX_UNITQUEUE].unitCode, false);

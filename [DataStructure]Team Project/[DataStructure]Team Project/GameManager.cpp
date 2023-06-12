@@ -84,52 +84,47 @@ void inputManager()
 		switch (getch())
 		{
 		case'1':
-			if (resource > SOLDIER_PRICE)
+			if (resource > SOLDIER_PRICE && spawnQueue(SOLDIER, SOLDIER_SPAWNTIME))
 			{
 				resource -= SOLDIER_PRICE;
-				spawnQueue(SOLDIER, SOLDIER_SPAWNTIME);
 			}
 			break;
 		case'2':
-			if (resource > ARCHER_PRICE)
+			if (resource > ARCHER_PRICE && spawnQueue(ARCHER, ARCHER_SPAWNTIME))
 			{
 				resource -= ARCHER_PRICE;
-				spawnQueue(ARCHER, ARCHER_SPAWNTIME);
+				
 			}
 			break;
 		case'3':
-			if (resource > SPEAR_PRICE)
+			if (resource > SPEAR_PRICE && spawnQueue(SPEAR, SPEAR_SPAWNTIME))
 			{
 				resource -= SPEAR_PRICE;
-				spawnQueue(SPEAR, SPEAR_SPAWNTIME);
+				
 			}
 			break;
 		case'4':
-			if (resource > JAVELIN_PRICE)
+			if (resource > JAVELIN_PRICE && spawnQueue(JAVELIN, JAVELIN_SPAWNTIME))
 			{
 				resource -= JAVELIN_PRICE;
-				spawnQueue(JAVELIN, JAVELIN_SPAWNTIME);
 			}
 			break;
 		case'5':
-			if (resource > HORSE_PRICE)
+			if (resource > HORSE_PRICE && spawnQueue(HORSE, HORSE_SPAWNTIME))
 			{
 				resource -= HORSE_PRICE;
-				spawnQueue(HORSE, HORSE_SPAWNTIME);
 			}
 			break;
 		case'6':
-			if (resource > PALADIN_PRICE)
+			if (resource > PALADIN_PRICE && spawnQueue(PALADIN, PALADIN_SPAWNTIME))
 			{
 				resource -= PALADIN_PRICE;
-				spawnQueue(PALADIN, PALADIN_SPAWNTIME);
 			}
 			break;
 		case'7':
-			if (resource > GENERAL_PRICE)
+			if (resource > GENERAL_PRICE && spawnQueue(GENERAL, GENERAL_SPAWNTIME))
 			{
 				resource -= GENERAL_PRICE;
-				spawnQueue(GENERAL, GENERAL_SPAWNTIME);
 			}
 			break;
 		}
