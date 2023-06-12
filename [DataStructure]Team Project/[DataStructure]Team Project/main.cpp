@@ -4,6 +4,11 @@
 #include"Resource.h"
 #include"GameManager.h"
 
+//음악
+#include <Windows.h>
+#include <mmsystem.h>
+#pragma comment(lib, "winmm.lib")
+
 FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 
 void sleep_time(int milliseconds) {
@@ -15,10 +20,14 @@ void sleep_time(int milliseconds) {
 
 int main(void)
 {
+    PlaySound(TEXT("backmusic.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP | SND_NODEFAULT); //음악출력
     int tick = 0;
     time_t startTime = clock();
     init_game();
     init_camp();
+    
+    // 노래 소리 출력
+
     while (tick <= 50000)
     {
         inputManager();
@@ -40,7 +49,6 @@ int main(void)
 
 	return 0;
 }
-
 
 
 /*
