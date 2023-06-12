@@ -10,7 +10,7 @@ Unit *enemycamp;
 
 int StageHP[5] = { 500,1000,1500,2000,2500 };
 extern int currentStage;
-
+int rollback = 0;
 void spawnUnit(int unitCode, bool enemy)
 {
 	
@@ -148,6 +148,18 @@ void unitControl()
 			head = LinkedList_delete(head, deleteNode);
 			continue;
 		}
+		//스테이지
+		if (rollback == 1) {
+			attackUnit(enemycamp, nowNode->unit);
+			LinkedList_currentUnit* deleteNode = nowNode;
+			nowNode = nowNode->llink;
+			head = LinkedList_delete(head, deleteNode);
+			rollback = 0;
+			continue;
+
+		}
+
+
 		// 탐색하는 유닛이 공격이 가능한 경우 사거리 안에 적이 있는지 확인하고 공격을 시도한다.
 		if (nowNode->unit->cooltime_attack <= 0)
 		{
@@ -445,9 +457,10 @@ void init_unit(int currentStage)
 void nextStage() {
 	currentStage++;
 	init_unit(currentStage);
-	
+	rollback = 1;
 }
 
 void replay() {
 	init_unit(currentStage);
+	rollback = 1;
 }
