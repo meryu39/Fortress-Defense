@@ -22,7 +22,7 @@ int main(void)
     
     // 노래 소리 출력
 
-    while (tick <= 50000)
+    while (1)
     {
         inputManager();
         if (clock() - startTime >= TICK * 1000)

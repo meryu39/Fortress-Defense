@@ -236,6 +236,11 @@ void unitControl()
 					replay();
 					return;
 				}
+				else
+				{
+					goto_xy(50, 5);
+					printf("             ");
+				}
 				continue;
 			}
 		}
@@ -289,7 +294,7 @@ bool spawnQueue(int unitCode, int spawn_tick)
 	{
 		spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime--;
 		goto_xy(0, FIELD_HEIGHT + 5);
-		printf("다음 유닛 소환까지 %2.2lf", (double)spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime / TIME_TICKS);
+		printf("다음 유닛 소환까지 %2.2lf", (double)spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime * TICK);
 		if (spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime <= 0)
 		{
 			spawnUnit(spawnQueue[rearIndex % MAX_UNITQUEUE].unitCode, false);
@@ -462,12 +467,16 @@ void init_unit(int currentStage)
 
 void nextStage() {
 	currentStage++;
-	init_unit(currentStage);
+	//init_unit(currentStage);
+	mycamp->hp = 500;
+	enemycamp->hp = StageHP[currentStage];
 	rollback = 1;
 	
 }
 
 void replay() {
-	init_unit(currentStage);
+	//init_unit(currentStage);
+	mycamp->hp = 500;
+	enemycamp->hp = StageHP[currentStage];
 	rollback = 1;
 }

@@ -77,7 +77,31 @@ void printScreen(FieldData (*inputData)[FIELD_WIDTH])
 					continue;
 				}
 				setColor(inputData[y][x].shape.color);
-				printf("%c", inputData[y][x].shape.look);
+				switch (inputData[y][x].unitData->unit_code)
+				{
+				case 1:
+					printf("бс");
+					break;
+				case 2:
+					printf("бу");
+					break;
+				case 3:
+					printf("в╝");
+					break;
+				case 4:
+					printf("е╫");
+					break;
+				case 5:
+					printf("в└");
+					break;
+				case 6:
+					printf("еш");
+					break;
+				case 7:
+					printf("б┌");
+					break;
+				}
+				//printf("%c", inputData[y][x].shape.look);
 			}
 		}
 	}
@@ -96,4 +120,11 @@ void printUI()
 	printf("%d\n", mycamp->hp);
 	goto_xy(93, 2);
 	printf("%d", enemycamp->hp);
+}
+
+void printDamage(int x, int damage)
+{
+	
+
+
 }

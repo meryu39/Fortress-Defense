@@ -5,6 +5,12 @@
 #define DOTSIZE_Y 1
 #define BACKGROUND_COLOR 7
 
+typedef struct
+{
+	int increase_y;
+	int num;
+};
+
 //COORD는 window.h 헤더파일에서 x, y좌표를 담고있는 구조체
 //구성멤버 : short X / short Y
 typedef COORD Position;
@@ -19,5 +25,7 @@ void goto_xy(SHORT x, SHORT y);
 void goto_xy(Position pos);
 //화면 출력 함수, 이번 프레임과 이전 프레임의 필드 상태를 비교해서 필요한 곳만 출력한다.
 void printScreen(FieldData (*inputData)[FIELD_WIDTH]);
-
+//상시로 출력하는 UI를 출력
 void printUI();
+//
+void printDamage(int x, int damage);
