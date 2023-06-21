@@ -8,7 +8,7 @@ extern int resource;
 Unit *mycamp;
 Unit *enemycamp;
 
-int StageHP[5] = { 500,1000,1500,2000,2500 };
+int StageHP[5] = { 1,1000,1500,2000,2500 };
 extern int currentStage;
 int rollback = 0;
 void spawnUnit(int unitCode, bool enemy)
@@ -135,7 +135,7 @@ void unitControl()
 	bool is_attack = false;
 	bool is_move = false;
 	FieldData temp;
-
+	LinkedList_currentUnit* currentNode = head->rlink;
 	for (LinkedList_currentUnit* nowNode = head->rlink; nowNode != head; nowNode = nowNode->rlink)
 	{
 		is_attack = false;
@@ -148,16 +148,22 @@ void unitControl()
 			head = LinkedList_delete(head, deleteNode);
 			continue;
 		}
-		//스테이지
 		if (rollback == 1) {
-			attackUnit(enemycamp, nowNode->unit);
-			LinkedList_currentUnit* deleteNode = nowNode;
-			nowNode = nowNode->llink;
-			head = LinkedList_delete(head, deleteNode);
-			rollback = 0;
-			continue;
+			LinkedList_currentUnit* currentNode = head->rlink;
+			while (currentNode != head) {
+				LinkedList_currentUnit* nextNode = currentNode->rlink;
+				attackUnit(enemycamp, currentNode->unit);
+				head = LinkedList_delete(head, currentNode);
 
+				currentNode = nextNode;
+			}
+
+			printScreen(field);
+			rollback = 0;
+			break;
 		}
+
+
 
 
 		// 탐색하는 유닛이 공격이 가능한 경우 사거리 안에 적이 있는지 확인하고 공격을 시도한다.
@@ -458,6 +464,7 @@ void nextStage() {
 	currentStage++;
 	init_unit(currentStage);
 	rollback = 1;
+	
 }
 
 void replay() {
