@@ -5,6 +5,7 @@ char defaultMap[FIELD_HEIGHT][FIELD_WIDTH];
 extern int resource;
 extern Unit* mycamp;
 extern Unit* enemycamp;
+extern FieldData field[FIELD_HEIGHT][FIELD_WIDTH];
 
 void setColor(unsigned short color)
 {
@@ -77,29 +78,32 @@ void printScreen(FieldData (*inputData)[FIELD_WIDTH])
 					continue;
 				}
 				setColor(inputData[y][x].shape.color);
-				switch (inputData[y][x].unitData->unit_code)
+				if (inputData[y][x].unitData != NULL)
 				{
-				case 1:
-					printf("■");
-					break;
-				case 2:
-					printf("▲");
-					break;
-				case 3:
-					printf("♠");
-					break;
-				case 4:
-					printf("Ψ");
-					break;
-				case 5:
-					printf("♣");
-					break;
-				case 6:
-					printf("θ");
-					break;
-				case 7:
-					printf("★");
-					break;
+					switch (inputData[y][x].unitData->unit_code)
+					{
+					case 1:
+						printf("■");
+						break;
+					case 2:
+						printf("▲");
+						break;
+					case 3:
+						printf("♠");
+						break;
+					case 4:
+						printf("Ψ");
+						break;
+					case 5:
+						printf("♣");
+						break;
+					case 6:
+						printf("θ");
+						break;
+					case 7:
+						printf("★");
+						break;
+					}
 				}
 				//printf("%c", inputData[y][x].shape.look);
 			}
@@ -117,14 +121,58 @@ void printUI()
 
 	//체력 출력
 	goto_xy(2, 2);
-	printf("%d\n", mycamp->hp);
-	goto_xy(93, 2);
-	printf("%d", enemycamp->hp);
+	printf("%4d", mycamp->hp);
+	goto_xy(92, 2);
+	printf("%4d", enemycamp->hp);
+	printDamage();
 }
 
-void printDamage(int x, int damage)
+void printDamage(Position pos, int damage, int color)
 {
-	
+	static Position damage_print_pos[DAMAGEPRINTQUEUE_MAXINDEX];
+	static int damage_print_tick[DAMAGEPRINTQUEUE_MAXINDEX];
+	static int frontIndex = 0;
+	static int rearIndex = 0;
 
+	for (int i = frontIndex; i < rearIndex; i++)
+	{
+		damage_print_tick[i % DAMAGEPRINTQUEUE_MAXINDEX]--;
+		field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X].code = -1;
+		field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X + 1].code = -1;
+		field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X + 2].code = -1;
+		if (damage_print_tick[i % DAMAGEPRINTQUEUE_MAXINDEX] <= 0)
+		{
+			field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X].code = 0;
+			field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X].shape.color = BACKGROUND_COLOR;
+			field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X + 1].code = 0;
+			field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X + 1].shape.color = BACKGROUND_COLOR;
+			field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X + 2].code = 0;
+			field[damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[i % DAMAGEPRINTQUEUE_MAXINDEX].X + 2].shape.color = BACKGROUND_COLOR;
+
+			frontIndex++;
+		}
+	}
+
+	if (damage != -1)
+	{
+		if ((rearIndex + 1) % DAMAGEPRINTQUEUE_MAXINDEX == frontIndex % DAMAGEPRINTQUEUE_MAXINDEX)
+		{
+			goto_xy(20, 0);
+			printf("error : 데미지 출력 큐 초과");
+			return;
+		}
+		damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX] = pos;
+		damage_print_tick[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX] = DAMAGE_PRINT_TICK;
+		field[damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X].code = -1;
+		field[damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X].shape.color = color;
+		field[damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X + 1].code = -1;
+		field[damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X + 1].shape.color = color;
+		field[damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X + 2].code = -1;
+		field[damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y][damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X + 2].shape.color = color;
+		goto_xy(damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].X, damage_print_pos[rearIndex % DAMAGEPRINTQUEUE_MAXINDEX].Y);
+		setColor(color);
+		printf("-%d", damage);
+		rearIndex++;
+	}
 
 }

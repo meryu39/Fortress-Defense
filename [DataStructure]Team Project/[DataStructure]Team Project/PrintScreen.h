@@ -4,12 +4,8 @@
 #define DOTSIZE_X 1
 #define DOTSIZE_Y 1
 #define BACKGROUND_COLOR 7
-
-typedef struct
-{
-	int increase_y;
-	int num;
-};
+#define DAMAGEPRINTQUEUE_MAXINDEX 15
+#define DAMAGE_PRINT_TICK 20
 
 //COORD는 window.h 헤더파일에서 x, y좌표를 담고있는 구조체
 //구성멤버 : short X / short Y
@@ -28,4 +24,4 @@ void printScreen(FieldData (*inputData)[FIELD_WIDTH]);
 //상시로 출력하는 UI를 출력
 void printUI();
 //
-void printDamage(int x, int damage);
+void printDamage(Position pos = {-1, -1}, int damage = -1, int color = BACKGROUND_COLOR);

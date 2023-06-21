@@ -8,3 +8,4 @@
 void init_game();
 void inputManager();
 void resourceManager();
+void clearGame();

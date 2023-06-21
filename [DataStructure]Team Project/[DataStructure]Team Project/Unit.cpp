@@ -252,6 +252,10 @@ void attackUnit(Unit* attacker, Unit* attackedUnit)
 {
 	static int kill = 0;
 	attackedUnit->hp -= attacker->damage;
+	if (attacker != enemycamp && attacker != mycamp)
+	{
+		printDamage({ (short)attackedUnit->x, (short)(attackedUnit->enemy ? FIELD_HEIGHT-2 : FIELD_HEIGHT-3) }, attacker->damage, attackedUnit->enemy ? RED : BLUE);
+	}
 	// 공격한 유닛의 체력이 0 이하인 경우 해당 필드의 정보를 초기화한다.
 	if (attackedUnit->hp <= 0)
 	{
@@ -259,6 +263,9 @@ void attackUnit(Unit* attacker, Unit* attackedUnit)
 		field[attackedUnit->y][attackedUnit->x].unitData = NULL;
 		field[attackedUnit->y][attackedUnit->x].shape.color = WHITE;
 		field[attackedUnit->y][attackedUnit->x].shape.look = ' ';
+
+		
+		
 		
 		goto_xy(0, 25);
 		if (attackedUnit->enemy)
@@ -392,7 +399,7 @@ int UnitAI()
 			{
 				goto_xy(0, 23);
 				printf("level_my_unit : %d\n", level_my_unit);
-				int unitlevel = level_my_unit - 2; // 아군 유닛 최고 티어 레벨에서 2 감소
+				int unitlevel = level_my_unit - 1 - get_random(); // 아군 유닛 최고 티어 레벨에서 2 감소
 				spawnUnit(unitlevel, true); //유닛 레벨로 설정 
 				Tag = 0;
 				break;
@@ -467,7 +474,13 @@ void init_unit(int currentStage)
 
 void nextStage() {
 	currentStage++;
+	if (currentStage == 5)
+	{
+		clearGame();
+		return;
+	}
 	//init_unit(currentStage);
+	resource = 0;
 	mycamp->hp = 500;
 	enemycamp->hp = StageHP[currentStage];
 	rollback = 1;

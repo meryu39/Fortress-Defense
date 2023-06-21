@@ -8,6 +8,7 @@ extern int currentStage;
 void init_game()
 {
 	init_unit(currentStage);
+	srand(time(NULL));
 	printScreen(NULL);
 	for (int y = 0; y < FIELD_HEIGHT; y++)
 	{
@@ -134,4 +135,9 @@ void inputManager()
 void resourceManager()
 {
 	resource += INCREASE_RESOURCE_BASIC;
+}
+
+void clearGame()
+{
+	return;
 }

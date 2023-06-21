@@ -1,6 +1,7 @@
 #pragma once
 #include"ProgramBase.h"
 #include"PrintScreen.h"
+#include"GameManager.h"
 
 
 #define MAX_UNITQUEUE (5+1)		//원형큐는 한자리를 full 여부 구분용도로 쓰므로 최대자리+1
