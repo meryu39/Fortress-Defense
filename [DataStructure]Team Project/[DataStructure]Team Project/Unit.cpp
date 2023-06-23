@@ -398,7 +398,6 @@ int UnitAI()
 			if (level_my_unit > 4)
 			{
 				goto_xy(0, 23);
-				printf("level_my_unit : %d\n", level_my_unit);
 				int unitlevel = level_my_unit - 1 - get_random(); // 아군 유닛 최고 티어 레벨에서 2 감소
 				spawnUnit(unitlevel, true); //유닛 레벨로 설정 
 				Tag = 0;

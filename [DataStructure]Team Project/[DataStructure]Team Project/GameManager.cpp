@@ -20,60 +20,7 @@ void init_game()
 			field[y][x].unitData = NULL;
 		}
 	}
-
-	for (int i = 1; i < FIELD_WIDTH; i++) {
-		goto_xy(i, 0);
-		printf("收");
-		goto_xy(i, FIELD_HEIGHT );
-		printf("收");
-	}
-
-	for (int i = 1; i < FIELD_HEIGHT; i++) {
-		goto_xy(0, i);
-		printf("早");
-		goto_xy(FIELD_WIDTH, i);
-		printf("早");
-	}
-
-	goto_xy(0, 0);
-	printf("旨");
-	goto_xy(0, FIELD_HEIGHT);
-	printf("曲");
-	goto_xy(FIELD_WIDTH, 0);
-	printf("旬");
-	goto_xy(FIELD_WIDTH, FIELD_HEIGHT);
-	printf("旭");
-
-	for (int i = 0; i < 30; i++)
-	{
-		if (i % 6 == 0)
-		{
-			goto_xy(i, FIELD_HEIGHT + 2);
-			printf("旨");
-			goto_xy(i, FIELD_HEIGHT + 3);
-			printf("早");
-			goto_xy(i, FIELD_HEIGHT + 4);
-			printf("曲");
-		}
-		if (i % 6 == 1 || i%6 == 2 || i%6 == 3)
-		{
-			goto_xy(i, FIELD_HEIGHT + 2);
-			printf("收");
-			goto_xy(i, FIELD_HEIGHT + 2);
-			goto_xy(i, FIELD_HEIGHT + 4);
-			printf("收");
-		}
-		if (i % 6 == 4)
-		{
-			goto_xy(i, FIELD_HEIGHT + 2);
-			printf("旬");
-			goto_xy(i, FIELD_HEIGHT + 3);
-			printf("早");
-			goto_xy(i, FIELD_HEIGHT + 4);
-			printf("旭");
-		}
-		
-	}
+	init_UI();
 
 
 }

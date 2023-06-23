@@ -25,3 +25,5 @@ void printScreen(FieldData (*inputData)[FIELD_WIDTH]);
 void printUI();
 //
 void printDamage(Position pos = {-1, -1}, int damage = -1, int color = BACKGROUND_COLOR);
+
+void init_UI();
