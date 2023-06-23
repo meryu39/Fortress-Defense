@@ -15,7 +15,7 @@ int currentStage = 0;
 bool exitgame = false;
 void mainscreen();
 void mainex();
-
+void endingscreen();
 
 int main(void)
 {
@@ -37,7 +37,7 @@ int main(void)
             break;
 
         case '3':
-            exit(0);
+            exit(1);
             break;
 
 
@@ -76,12 +76,38 @@ int main(void)
             }
             goto_xy(0, 21);
         }
+        if (currentStage == 5) {
+            system("cls");
+            break;
+            
+            
+        }
     }
+    endingscreen();
+
 
 	return 0;
 }
 
+void endingscreen() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+    GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
+    WORD originalAttributes = consoleInfo.wAttributes;
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
+    printf("                   ##\n");
+    printf("\n");
+    printf("        ##   ##   ###     #####\n");
+    printf("        ## # ##    ##     ##  ##\n");
+    printf("        #######    ##     ##  ##\n");
+    printf("        #######    ##     ##  ##\n");
+    printf("        ## ##    ####    ##  ##\n");
+    printf("\n");
+    printf("플레이어는 적 성채를 함락시키고 황제되었습니다");
+
+
+}
 void mainscreen()
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
