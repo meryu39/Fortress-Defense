@@ -271,9 +271,7 @@ void attackUnit(Unit* attacker, Unit* attackedUnit)
 		if (attackedUnit->enemy)
 		{
 			kill++;
-			printf("적유닛처치! : %d마리째\n", kill);
 			resource += attackedUnit->kill_bonus;
-			// 이 주석을 지우고 킬보너스와 관련된 함수를 넣으면 된다.
 		}
 		
 	}
@@ -295,7 +293,30 @@ bool spawnQueue(int unitCode, int spawn_tick)
 			printf(" ");
 			continue;
 		}
-		printf("%d ", spawnQueue[(rearIndex+i)%MAX_UNITQUEUE].unitCode);
+		switch (spawnQueue[(rearIndex + i) % MAX_UNITQUEUE].unitCode)
+		{
+		case 1:
+			printf("■");
+			break;
+		case 2:
+			printf("▲");
+			break;
+		case 3:
+			printf("♠");
+			break;
+		case 4:
+			printf("Ψ");
+			break;
+		case 5:
+			printf("♣");
+			break;
+		case 6:
+			printf("θ");
+			break;
+		case 7:
+			printf("★");
+			break;
+		}
 	}
 	if (unitCode == -1 && frontIndex % MAX_UNITQUEUE != rearIndex % MAX_UNITQUEUE)
 	{
@@ -305,20 +326,20 @@ bool spawnQueue(int unitCode, int spawn_tick)
 		if (spawnQueue[rearIndex % MAX_UNITQUEUE].spawnTime <= 0)
 		{
 			spawnUnit(spawnQueue[rearIndex % MAX_UNITQUEUE].unitCode, false);
+			goto_xy(0, 16);
+			printf("                                 ");
 			rearIndex++;
 		}
 	}
 	if ((frontIndex + 1) % MAX_UNITQUEUE == rearIndex % MAX_UNITQUEUE)
 	{
-		goto_xy(0, 22);
+		goto_xy(0, 16);
 		printf("소환대기열이 가득찼습니다.\n");
 		return false;
 	}
 	else if (unitCode != -1)
 	{
 		spawnQueue[(frontIndex++) % MAX_UNITQUEUE] = { unitCode, spawn_tick };
-		goto_xy(0, 22);
-		printf("                                    ");
 	}
 	
 	return true;
